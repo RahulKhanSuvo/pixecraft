@@ -47,7 +47,7 @@ export function EditorToolRail() {
   return (
     <nav
       aria-label="Editor tools"
-      className="flex h-full  w-19 shrink-0 flex-col items-center gap-1 overflow-y-auto border-r bg-background px-1.5 py-3"
+      className="flex h-full w-19 shrink-0 flex-col items-center gap-1 overflow-y-auto border-r bg-background px-1.5 py-3"
     >
       {tools.map((tool) => {
         const isActive = activeTool === tool.id && isPanelOpen;
