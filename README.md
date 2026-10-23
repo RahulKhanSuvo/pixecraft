@@ -1,35 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pixecraft
+
+Pixecraft is a browser-based visual editor for creating and customizing visual designs using templates and editable elements.
+
+## Goals
+
+- Make design creation accessible and straightforward.
+- Provide an interactive canvas for editing visual assets.
+- Support reusable templates.
+- Make exporting finished designs easy.
+- Build a maintainable foundation for future features.
+
+## Tech Stack
+
+- Next.js App Router
+- React
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- Phosphor Icons
+- Bun
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+bun install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Start the development server:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+bun run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Run the production build:
 
-## Learn More
+```bash
+bun run build
+```
 
-To learn more about Next.js, take a look at the following resources:
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Check the available scripts in `package.json` before running commands that may differ from these examples.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Documentation
 
-## Deploy on Vercel
+- `AGENTS.md` — Instructions for AI coding agents.
+- `docs/PRODUCT.md` — Product goals and requirements.
+- `docs/ARCHITECTURE.md` — Technical architecture.
+- `docs/DESIGN-SYSTEM.md` — Visual and interaction guidelines.
+- `docs/DEVELOPMENT.md` — Development workflow.
+- `plans/current-feature.md` — Plan for the active feature.
+- `CONTRIBUTING.md` — Contribution guidelines.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Development Principles
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Build incrementally.
+- Prioritize usability and reliability.
+- Keep the architecture understandable.
+- Avoid unnecessary complexity.
+- Verify changes before considering work complete.
