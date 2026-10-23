@@ -44,7 +44,7 @@ export default function RootLayout({
         publicSansHeading.variable,
       )}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="h-full flex flex-col">
         {children}
         <Toaster />
       </body>
