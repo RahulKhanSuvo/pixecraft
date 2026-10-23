@@ -107,6 +107,35 @@ Do not store unnecessary derived values or duplicate the same state in multiple 
 - Update documentation when important architectural decisions change.
 - Verify the implementation instead of trusting generated code blindly.
 
+## Mandatory Modular Architecture
+
+**The agent MUST follow the established modular, feature-based project structure for every implementation. This is a strict requirement, not a suggestion.**
+
+- Before writing or modifying code, inspect the existing directory structure and identify the correct module for the requested functionality.
+- Organize code by feature, keeping related components, hooks, stores, types, schemas, and business logic together within their respective feature modules.
+- Keep route files in `src/app/`, shared UI components in `src/components/`, and genuinely shared utilities in `src/lib/`.
+- Keep each module focused on a single responsibility. Separate UI, state management, domain logic, canvas rendering, and data operations when appropriate.
+- Never put an entire feature or complex implementation into one large component or file.
+- Do not place feature-specific logic in global shared directories when it belongs inside a feature module.
+- Reuse existing modules instead of duplicating functionality.
+- Maintain clear module boundaries, consistent imports, and minimal coupling between features.
+- Do not create unnecessary files, folders, abstractions, or excessive numbers of tiny components.
+- Do not introduce a new architectural pattern or reorganize the project without a clear technical reason.
+- When modifying existing code, preserve the established structure and conventions unless a structural change is explicitly justified.
+- When a feature grows, split it into cohesive submodules without breaking existing behavior.
+
+### Required Workflow
+
+1. Inspect the existing project structure.
+2. Identify the feature and module responsible for the requested functionality.
+3. Review existing implementations and dependencies.
+4. Plan which modules need to be created or modified.
+5. Implement the feature within the correct modules.
+6. Verify that module boundaries and existing functionality remain intact.
+
+**Before completing a task, verify that all new and modified code follows the modular architecture. If a proposed implementation violates the established structure, refactor it before considering the task complete.**
+
+
 ### Verification
 
 Use the scripts defined in `package.json`.
