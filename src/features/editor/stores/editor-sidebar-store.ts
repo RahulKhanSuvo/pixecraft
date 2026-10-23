@@ -1,4 +1,5 @@
 import { create } from "zustand";
+
 export type EditorSidebarTool =
   | "templates"
   | "images"
@@ -19,14 +20,17 @@ type EditorSidebarState = {
   openPanel: () => void;
   closePanel: () => void;
 };
+
 export const useEditorSidebarStore = create<EditorSidebarState>((set) => ({
   activeTool: "templates",
   isPanelOpen: false,
+
   setActiveTool: (tool) =>
-    set({
+    set((state) => ({
       activeTool: tool,
-      isPanelOpen: false,
-    }),
+      isPanelOpen: state.activeTool === tool ? !state.isPanelOpen : true,
+    })),
+
   togglePanel: () =>
     set((state) => ({
       isPanelOpen: !state.isPanelOpen,
