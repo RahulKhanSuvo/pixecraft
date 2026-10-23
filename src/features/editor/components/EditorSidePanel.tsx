@@ -13,7 +13,7 @@ export function EditorSidePanel() {
   }
 
   return (
-    <aside>
+    <aside className="h-full w-80 border-r bg-background p-4">
       <h2>{activeTool}</h2>
 
       {activeTool === "templates" && <p>Browse templates</p>}
