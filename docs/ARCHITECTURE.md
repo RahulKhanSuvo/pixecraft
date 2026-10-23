@@ -46,7 +46,6 @@ Keep reusable interface components separate from feature-specific components.
 ### Editor Workspace
 
 The editor may contain:
-
 - Canvas or stage.
 - Editable objects.
 - Selection and transformation controls.
@@ -84,7 +83,6 @@ Document the actual database, ORM, authentication, storage, and API choices here
 ## Significant Decisions
 
 For major technical decisions, record:
-
 - **Context:** What problem are we solving?
 - **Options:** What alternatives were considered?
 - **Decision:** What did we choose?

@@ -41,7 +41,6 @@ Pixecraft must follow a modular, feature-oriented architecture.
 The editor is a distinct feature and must be modular.
 
 Separate these responsibilities where appropriate:
-
 - Workspace composition.
 - Canvas and stage rendering.
 - Text, image, and shape objects.
@@ -110,7 +109,6 @@ Do not store unnecessary derived values or duplicate the same state in multiple 
 ## Mandatory Modular Architecture
 
 **The agent MUST follow the established modular, feature-based project structure for every implementation. This is a strict requirement, not a suggestion.**
-
 - Before writing or modifying code, inspect the existing directory structure and identify the correct module for the requested functionality.
 - Organize code by feature, keeping related components, hooks, stores, types, schemas, and business logic together within their respective feature modules.
 - Keep route files in `src/app/`, shared UI components in `src/components/`, and genuinely shared utilities in `src/lib/`.
@@ -139,7 +137,6 @@ Do not store unnecessary derived values or duplicate the same state in multiple 
 ### Verification
 
 Use the scripts defined in `package.json`.
-
 - `bun run lint` — Biome checks.
 - `bun run build` — production build.
 - `bun run dev` — development server.

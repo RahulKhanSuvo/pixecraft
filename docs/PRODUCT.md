@@ -63,7 +63,6 @@ These are possible future features, not automatic commitments.
 ## Scope Control
 
 Before implementing a new feature, determine:
-
 - Which user problem it solves.
 - Whether it belongs in the current milestone.
 - What existing functionality it affects.

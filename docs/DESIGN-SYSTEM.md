@@ -22,7 +22,6 @@ The interface should prioritize the canvas, editing controls, and the user's wor
 Use the project's existing theme and design tokens whenever possible.
 
 Suggested direction:
-
 - Background: off-white or white.
 - Primary text: near-black.
 - Secondary text: neutral gray.
@@ -66,7 +65,6 @@ Do not scatter hardcoded colors across components. Prefer centralized CSS variab
 ## Interaction States
 
 Interactive components should account for:
-
 - Default.
 - Hover.
 - Focus.
