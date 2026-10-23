@@ -88,3 +88,99 @@ For substantial tasks, report:
 For simple tasks, avoid unnecessary planning and lengthy explanations.
 
 **Important:** Understand and verify generated code instead of blindly trusting AI output.
+
+## Modular Architecture (Required)
+
+The project must follow a modular, feature-oriented architecture. Do not place the entire application or a feature in a single large component or file.
+
+### 1. Organize by Feature
+
+- Group related components, hooks, types, schemas, and business logic by feature when appropriate.
+- Keep each feature's implementation cohesive and easy to locate.
+- Separate shared functionality from feature-specific functionality.
+- Avoid creating folders or abstractions without a practical reason.
+
+### 2. Single Responsibility
+
+- Each component, hook, utility, and module should have a clear responsibility.
+- Components should not contain unrelated business logic.
+- Separate UI rendering, state management, data access, validation, and domain logic when doing so improves clarity.
+- Extract reusable logic when it is genuinely shared or makes a complex component easier to understand.
+- Avoid both oversized files and excessive fragmentation into tiny files.
+
+### 3. Suggested Structure
+
+Adapt this structure to the existing repository and the complexity of each feature. Do not create every directory automatically.
+
+```text
+src/
+├── app/
+│   ├── layout.tsx
+│   ├── page.tsx
+│   └── editor/
+├── features/
+│   ├── editor/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── lib/
+│   │   ├── types/
+│   │   └── index.ts
+│   ├── templates/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── lib/
+│   │   └── types/
+│   └── export/
+│       ├── components/
+│       ├── lib/
+│       └── types/
+├── components/
+│   ├── layout/
+│   └── ui/
+├── hooks/
+├── lib/
+├── types/
+└── config/
+```
+
+The exact structure may evolve. First inspect whether the project already uses a `src/` directory and follow that convention consistently.
+
+### 4. Module Boundaries
+
+- A feature should own its internal implementation whenever practical.
+- Shared components and utilities belong in shared directories only when multiple features genuinely need them.
+- Avoid circular dependencies between modules.
+- Avoid importing another feature's private implementation directly when a clear public interface would work better.
+- Keep imports and exports explicit and understandable.
+- Do not create barrel files everywhere by default.
+
+### 5. Component Design
+
+- Keep page components focused on composing the page and connecting feature components.
+- Split complex interfaces into meaningful subcomponents.
+- Extract custom hooks when they encapsulate reusable or complex React behavior.
+- Keep components configurable through well-defined props.
+- Avoid passing unnecessary props through many layers; use an appropriate state or composition pattern when justified.
+
+### 6. Dependency Direction
+
+- Shared utilities must not depend on feature-specific UI.
+- Domain logic should not depend unnecessarily on React components.
+- UI components should consume clearly defined state and operations.
+- Keep framework-specific code at appropriate application boundaries.
+
+### 7. Before Creating or Refactoring Modules
+
+1. Inspect the current directory structure.
+2. Identify the responsibility of the existing code.
+3. Decide which module should own that responsibility.
+4. Check for existing implementations that can be reused.
+5. Make the smallest architectural change that improves maintainability.
+
+Do not reorganize the entire project just to match an example directory tree.
+
+### 8. Maintainability Rule
+
+When a file becomes difficult to understand because it contains multiple unrelated responsibilities, split it into cohesive modules. Do not use an arbitrary line-count limit as the only reason to split a file.
+
+**Required outcome:** Every feature should have a clear place in the architecture, every module should have a clear responsibility, and the codebase should remain easy to extend, debug, test, and understand.
