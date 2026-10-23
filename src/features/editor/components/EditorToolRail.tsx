@@ -8,7 +8,7 @@ export function EditorToolRail() {
   const setActiveTool = useEditorSidebarStore((state) => state.setActiveTool);
 
   return (
-    <nav>
+    <nav className="flex flex-col">
       <button
         type="button"
         onClick={() => setActiveTool("templates")}
