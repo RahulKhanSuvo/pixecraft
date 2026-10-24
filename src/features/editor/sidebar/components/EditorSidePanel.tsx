@@ -1,6 +1,6 @@
 "use client";
 
-import { useEditorSidebarStore } from "../stores/editor-sidebar-store";
+import { useEditorSidebarStore } from "../../stores/editor-sidebar-store";
 
 export function EditorSidePanel() {
   const activeTool = useEditorSidebarStore((state) => state.activeTool);
