@@ -15,7 +15,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import {
   type EditorSidebarTool,
   useEditorSidebarStore,
-} from "../stores/editor-sidebar-store";
+} from "../../stores/editor-sidebar-store";
 
 const tools: {
   id: EditorSidebarTool;
