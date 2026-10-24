@@ -36,12 +36,25 @@ export function useZoomPan(
       const stage = stageRef.current;
       if (!stage) return;
 
-      // Ensure pointer coords are fresh on the first wheel event
+      // Ctrl (Win/Linux/Mac) or Cmd (Mac) → zoom.
+      // Trackpad pinch on macOS is delivered as wheel + ctrlKey, so it
+      // flows through the same branch. Everything else → pan.
+      const isZoom = e.evt.ctrlKey || e.evt.metaKey;
+
+      if (!isZoom) {
+        // Plain wheel = pan. Negative signs match "scroll content" feel.
+        const { panBy } = useViewportStore.getState();
+        panBy(-e.evt.deltaX, -e.evt.deltaY);
+        return;
+      }
+
       stage.setPointersPositions(e.evt);
       const pointer = stage.getPointerPosition();
       if (!pointer) return;
 
-      const isPinch = e.evt.ctrlKey;
+      // Trackpad pinch emits small deltas; a wheel notch is ~100+.
+      // Used only to pick a gentler step so pinch doesn't jump.
+      const isPinch = Math.abs(e.evt.deltaY) < 10;
       const step = isPinch ? PINCH_STEP : WHEEL_STEP;
       const factor = e.evt.deltaY > 0 ? 1 / step : step;
       apply(factor, pointer);
