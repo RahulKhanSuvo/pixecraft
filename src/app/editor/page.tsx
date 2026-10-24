@@ -1,4 +1,4 @@
-import { EditorSidebar } from "@/features/editor/components/EditorSidebar";
+import { EditorSidebar } from "@/features/sidebar/components/EditorSidebar";
 
 function EditorPage() {
   return (
