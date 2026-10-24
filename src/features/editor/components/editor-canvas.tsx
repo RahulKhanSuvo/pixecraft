@@ -7,6 +7,7 @@ import { Layer, Stage } from "react-konva";
 
 import { useZoomPan } from "../hooks/useZoomPan";
 import { useViewportStore } from "../stores/viewport";
+import { DemoShapes } from "./demo-shapes";
 
 interface EditorCanvasProps {
   stageRef: React.RefObject<Konva.Stage | null>;
@@ -24,7 +25,7 @@ export function EditorCanvas({ stageRef, width, height }: EditorCanvasProps) {
     const { viewport: v, setViewport } = useViewportStore.getState();
     setViewport({ ...v, x: stage.x(), y: stage.y() });
   }, []);
-
+  console.log(width);
   return (
     <Stage
       ref={stageRef}
@@ -42,11 +43,7 @@ export function EditorCanvas({ stageRef, width, height }: EditorCanvasProps) {
       style={{ background: "#f5f5f5" }}
     >
       <Layer>
-        {/*
-          Demo shapes — in the real editor, render document objects here
-          from a separate document store, memoized so wheel zoom doesn't
-          re-render every shape.
-        */}
+        <DemoShapes width={width} height={height} />
       </Layer>
     </Stage>
   );
