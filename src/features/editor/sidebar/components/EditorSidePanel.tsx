@@ -6,8 +6,6 @@ export function EditorSidePanel() {
   const activeTool = useEditorSidebarStore((state) => state.activeTool);
 
   const isPanelOpen = useEditorSidebarStore((state) => state.isPanelOpen);
-  console.log("isopen ", isPanelOpen);
-  console.log("too ", activeTool);
   if (!isPanelOpen) {
     return null;
   }
