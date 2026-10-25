@@ -32,3 +32,38 @@ export function zoomAt(
     y: anchor.y - worldY * newScale,
   };
 }
+
+/**
+ * Calculate the viewport to center and fit a document of (docWidth, docHeight)
+ * within a container of (containerWidth, containerHeight) with padding.
+ */
+export function calculateFitViewport(
+  containerWidth: number,
+  containerHeight: number,
+  docWidth: number,
+  docHeight: number,
+  padding = 64,
+): Viewport {
+  if (
+    containerWidth <= 0 ||
+    containerHeight <= 0 ||
+    docWidth <= 0 ||
+    docHeight <= 0
+  ) {
+    return { scale: 1, x: 0, y: 0 };
+  }
+
+  const availableWidth = Math.max(containerWidth - padding * 2, 50);
+  const availableHeight = Math.max(containerHeight - padding * 2, 50);
+
+  const scale = clamp(
+    Math.min(availableWidth / docWidth, availableHeight / docHeight),
+    MIN_SCALE,
+    1,
+  );
+
+  const x = Math.round((containerWidth - docWidth * scale) / 2);
+  const y = Math.round((containerHeight - docHeight * scale) / 2);
+
+  return { scale, x, y };
+}
