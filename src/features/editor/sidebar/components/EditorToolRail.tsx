@@ -1,14 +1,14 @@
 "use client";
 
 import {
-  AiImageIcon,
-  Blend,
+  // Blend,
   File,
   Layout,
+  PaintBucketIcon,
   ShapeCollectionIcon,
+  SmartPhone01Icon,
   StickerFreeIcons,
   Text,
-  View,
 } from "@hugeicons/core-free-icons";
 import Image01Icon from "@hugeicons/core-free-icons/Image01Icon";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -23,17 +23,17 @@ const tools: {
   icon: typeof Layout;
 }[] = [
   { id: "templates", label: "Templates", icon: Layout },
-  { id: "images", label: "Images", icon: Image01Icon },
-  { id: "image-ai", label: "Image AI", icon: AiImageIcon },
+  { id: "photos", label: "Photos", icon: Image01Icon },
   { id: "text", label: "Text", icon: Text },
-  { id: "mockups", label: "Mockups", icon: View },
+  { id: "mockups", label: "Mockups", icon: SmartPhone01Icon },
   { id: "elements", label: "Elements", icon: ShapeCollectionIcon },
+  { id: "backgrounds", label: "Backgrounds", icon: PaintBucketIcon },
   {
     id: "illustrations",
     label: "Illustrations",
     icon: StickerFreeIcons,
   },
-  { id: "blend", label: "Blend", icon: Blend },
+  // { id: "blend", label: "Blend", icon: Blend },
   { id: "my-files", label: "My Files", icon: File },
 ];
 
