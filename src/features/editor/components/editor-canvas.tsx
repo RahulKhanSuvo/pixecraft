@@ -7,7 +7,6 @@ import { Layer, Stage } from "react-konva";
 
 import { useZoomPan } from "../hooks/useZoomPan";
 import { useViewportStore } from "../stores/viewport";
-import { DemoShapes } from "./demo-shapes";
 
 interface EditorCanvasProps {
   stageRef: React.RefObject<Konva.Stage | null>;
@@ -42,9 +41,7 @@ export function EditorCanvas({ stageRef, width, height }: EditorCanvasProps) {
       onDragEnd={handleDragEnd}
       style={{ background: "#f5f5f5" }}
     >
-      <Layer>
-        <DemoShapes width={width} height={height} />
-      </Layer>
+      <Layer></Layer>
     </Stage>
   );
 }
