@@ -8,6 +8,7 @@ export interface CommonNodeProps {
   height: number;
   rotation: number;
   opacity: number;
+  globalCompositeOperation?: GlobalCompositeOperation;
   draggable: boolean;
   onClick: (e: KonvaEventObject<MouseEvent>) => void;
   onTap: (e: KonvaEventObject<TouchEvent>) => void;

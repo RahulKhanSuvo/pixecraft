@@ -57,6 +57,8 @@ function NodeRendererImpl({ node }: NodeRendererProps) {
     height: node.height,
     rotation: node.rotation,
     opacity: node.opacity,
+    globalCompositeOperation:
+      (node.blendMode as GlobalCompositeOperation | undefined) ?? "source-over",
     draggable: !node.locked,
     onClick: handleSelect,
     onTap: handleSelect,

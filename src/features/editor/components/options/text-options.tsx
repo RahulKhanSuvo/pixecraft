@@ -182,8 +182,6 @@ export function TextOptions({ node }: TextOptionsProps) {
         />
       </button>
 
-      <Separator />
-
       {/* Aa — text case */}
       <button
         type="button"

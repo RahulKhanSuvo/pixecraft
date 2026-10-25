@@ -1,3 +1,21 @@
+export type BlendMode =
+  | "source-over"
+  | "multiply"
+  | "screen"
+  | "overlay"
+  | "darken"
+  | "lighten"
+  | "color-dodge"
+  | "color-burn"
+  | "hard-light"
+  | "soft-light"
+  | "difference"
+  | "exclusion"
+  | "hue"
+  | "saturation"
+  | "color"
+  | "luminosity";
+
 export interface BaseNode {
   id: string;
   x: number;
@@ -6,6 +24,7 @@ export interface BaseNode {
   height: number;
   rotation: number;
   opacity: number;
+  blendMode?: BlendMode;
   locked?: boolean;
 }
 

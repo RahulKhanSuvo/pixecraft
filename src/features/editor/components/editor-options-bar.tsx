@@ -1,17 +1,16 @@
 "use client";
 
-import {
-  Copy01Icon,
-  Layers01Icon,
-  TrashIcon,
-} from "@hugeicons/core-free-icons";
+import { Copy01Icon, TrashIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useDocumentStore } from "../stores/document-store";
 import { useSelectionStore } from "../stores/selection-store";
+import type { BlendMode } from "../types/editor-node";
 import { DefaultOptions } from "./options/default-options";
 import { ImageOptions } from "./options/image-options";
 import { ShapeOptions } from "./options/shape-options";
 import { TextOptions } from "./options/text-options";
+import { PositionButton } from "./position-button";
+import { TransparencyBlendButton } from "./transparency-blend-button";
 
 export function EditorOptionsBar() {
   const selectedIds = useSelectionStore((s) => s.selectedIds);
@@ -21,6 +20,9 @@ export function EditorOptionsBar() {
   const updateNode = useDocumentStore((s) => s.updateNode);
   const addNode = useDocumentStore((s) => s.addNode);
   const removeNodes = useDocumentStore((s) => s.removeNodes);
+  const reorderNode = useDocumentStore((s) => s.reorderNode);
+  const documentWidth = useDocumentStore((s) => s.width);
+  const documentHeight = useDocumentStore((s) => s.height);
 
   const selectedNode =
     selectedIds.length === 1
@@ -71,46 +73,33 @@ export function EditorOptionsBar() {
 
       {/* Right: shared node controls — only when something is selected */}
       {selectedNode && (
-        <div className="flex shrink-0 items-center gap-1 border-l border-border pl-3 ml-auto">
+        <div className="flex shrink-0 items-center gap-1.5 border-l border-border pl-3 ml-auto">
           {/* Position / arrange */}
-          <button
-            type="button"
-            aria-label="Position and arrange"
-            className="flex h-7 items-center gap-1 rounded px-1.5 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-          >
-            <HugeiconsIcon icon={Layers01Icon} size={14} aria-hidden="true" />
-            <span className="text-[11px]">Position</span>
-          </button>
+          <PositionButton
+            node={selectedNode}
+            nodes={nodes}
+            documentWidth={documentWidth}
+            documentHeight={documentHeight}
+            onUpdate={(patch) => updateNode(selectedNode.id, patch)}
+            onReorder={(id, toIndex) => reorderNode(id, toIndex)}
+            onSelect={(id) => select(id)}
+          />
 
-          <div className="mx-0.5 h-4 w-px bg-border" aria-hidden="true" />
+          <div className="h-4 w-px bg-border" aria-hidden="true" />
 
-          {/* Opacity */}
-          <div className="flex h-7 items-center gap-1">
-            <span className="text-[11px] text-muted-foreground">Opacity</span>
-            <div className="flex h-7 items-center overflow-hidden rounded border border-border bg-background focus-within:ring-1 focus-within:ring-ring">
-              <input
-                type="number"
-                min={0}
-                max={100}
-                value={Math.round(selectedNode.opacity * 100)}
-                onChange={(e) =>
-                  updateNode(selectedNode.id, {
-                    opacity: Math.min(
-                      1,
-                      Math.max(0, Number(e.target.value) / 100),
-                    ),
-                  })
-                }
-                className="w-10 bg-transparent px-1.5 text-center text-xs font-mono focus:outline-none"
-                aria-label="Opacity percentage"
-              />
-              <span className="pr-1.5 text-[11px] text-muted-foreground">
-                %
-              </span>
-            </div>
-          </div>
+          {/* Transparency + Blend Mode (combined popover) */}
+          <TransparencyBlendButton
+            opacity={selectedNode.opacity}
+            blendMode={selectedNode.blendMode as BlendMode | undefined}
+            onOpacityChange={(opacity) =>
+              updateNode(selectedNode.id, { opacity })
+            }
+            onBlendModeChange={(blendMode) =>
+              updateNode(selectedNode.id, { blendMode })
+            }
+          />
 
-          <div className="mx-0.5 h-4 w-px bg-border" aria-hidden="true" />
+          <div className="h-4 w-px bg-border" aria-hidden="true" />
 
           {/* Duplicate */}
           <button
