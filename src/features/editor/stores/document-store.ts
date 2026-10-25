@@ -3,6 +3,9 @@ import { revokeAllObjectUrls } from "../lib/object-url-registry";
 import type { DocumentSnapshot, EditorNode } from "../types/editor-node";
 
 interface DocumentStore extends DocumentSnapshot {
+  title: string;
+  setTitle: (title: string) => void;
+
   past: DocumentSnapshot[];
   future: DocumentSnapshot[];
   tx: { before: DocumentSnapshot } | null;
@@ -23,13 +26,15 @@ interface DocumentStore extends DocumentSnapshot {
 }
 
 const takeSnapshot = (s: DocumentSnapshot): DocumentSnapshot => ({
+  title: s.title,
   width: s.width,
   height: s.height,
   background: s.background,
   nodes: s.nodes.map((n) => ({ ...n })),
 });
 
-const defaults: DocumentSnapshot = {
+const defaults: DocumentSnapshot & { title: string } = {
+  title: "Untitled design",
   width: 1080,
   height: 1080,
   background: "#ffffff",
@@ -41,6 +46,8 @@ export const useDocumentStore = create<DocumentStore>((set, get) => ({
   past: [],
   future: [],
   tx: null,
+
+  setTitle: (title: string) => set({ title }),
 
   beginTransaction: () => {
     if (get().tx) return;
@@ -65,6 +72,7 @@ export const useDocumentStore = create<DocumentStore>((set, get) => ({
       const previous = s.past[s.past.length - 1];
       return {
         ...previous,
+        title: s.title,
         past: s.past.slice(0, -1),
         future: [takeSnapshot(s), ...s.future],
         tx: null,
@@ -77,6 +85,7 @@ export const useDocumentStore = create<DocumentStore>((set, get) => ({
       const [next, ...rest] = s.future;
       return {
         ...next,
+        title: s.title,
         past: [...s.past, takeSnapshot(s)],
         future: rest,
         tx: null,
@@ -132,6 +141,13 @@ export const useDocumentStore = create<DocumentStore>((set, get) => ({
 
   reset: (init) => {
     revokeAllObjectUrls();
-    set({ ...defaults, ...init, past: [], future: [], tx: null });
+    set({
+      ...defaults,
+      ...init,
+      title: init?.title ?? defaults.title,
+      past: [],
+      future: [],
+      tx: null,
+    });
   },
 }));
