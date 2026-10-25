@@ -2,11 +2,12 @@ import { create } from "zustand";
 
 export type EditorSidebarTool =
   | "templates"
-  | "images"
+  | "photos"
   | "image-ai"
   | "text"
   | "mockups"
   | "elements"
+  | "backgrounds"
   | "illustrations"
   | "blend"
   | "my-files";
