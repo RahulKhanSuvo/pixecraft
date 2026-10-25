@@ -1,12 +1,6 @@
 import { create } from "zustand";
-import type { EditorNode } from "../types/editor-node";
-
-export interface DocumentSnapshot {
-  width: number;
-  height: number;
-  background: string;
-  nodes: EditorNode[];
-}
+import { revokeAllObjectUrls } from "../lib/object-url-registry";
+import type { DocumentSnapshot, EditorNode } from "../types/editor-node";
 
 interface DocumentStore extends DocumentSnapshot {
   past: DocumentSnapshot[];
@@ -23,13 +17,12 @@ interface DocumentStore extends DocumentSnapshot {
   updateNode: (id: string, patch: Partial<EditorNode>) => void;
   removeNodes: (ids: string[]) => void;
   reorderNode: (id: string, toIndex: number) => void;
-
   setBackground: (color: string) => void;
   setDocumentSize: (width: number, height: number) => void;
   reset: (init?: Partial<DocumentSnapshot>) => void;
 }
 
-const snapshot = (s: DocumentSnapshot): DocumentSnapshot => ({
+const takeSnapshot = (s: DocumentSnapshot): DocumentSnapshot => ({
   width: s.width,
   height: s.height,
   background: s.background,
@@ -49,16 +42,17 @@ export const useDocumentStore = create<DocumentStore>((set, get) => ({
   future: [],
   tx: null,
 
-  // --- history ---------------------------------------------------------
   beginTransaction: () => {
     if (get().tx) return;
-    set({ tx: { before: snapshot(get()) } });
+    set({ tx: { before: takeSnapshot(get()) } });
   },
+
   endTransaction: () => {
     const { tx, past } = get();
     if (!tx) return;
     set({ past: [...past, tx.before], future: [], tx: null });
   },
+
   cancelTransaction: () => {
     const { tx } = get();
     if (!tx) return;
@@ -72,29 +66,29 @@ export const useDocumentStore = create<DocumentStore>((set, get) => ({
       return {
         ...previous,
         past: s.past.slice(0, -1),
-        future: [snapshot(s), ...s.future],
+        future: [takeSnapshot(s), ...s.future],
         tx: null,
       };
     }),
+
   redo: () =>
     set((s) => {
       if (s.future.length === 0) return s;
       const [next, ...rest] = s.future;
       return {
         ...next,
-        past: [...s.past, snapshot(s)],
+        past: [...s.past, takeSnapshot(s)],
         future: rest,
         tx: null,
       };
     }),
 
-  // --- node mutations --------------------------------------------------
   addNode: (node, index) =>
     set((s) => {
       const nodes = [...s.nodes];
       if (index === undefined) nodes.push(node);
       else nodes.splice(index, 0, node);
-      return { past: [...s.past, snapshot(s)], future: [], nodes };
+      return { past: [...s.past, takeSnapshot(s)], future: [], nodes };
     }),
 
   updateNode: (id, patch) =>
@@ -106,7 +100,7 @@ export const useDocumentStore = create<DocumentStore>((set, get) => ({
 
   removeNodes: (ids) =>
     set((s) => ({
-      past: [...s.past, snapshot(s)],
+      past: [...s.past, takeSnapshot(s)],
       future: [],
       nodes: s.nodes.filter((n) => !ids.includes(n.id)),
     })),
@@ -118,24 +112,26 @@ export const useDocumentStore = create<DocumentStore>((set, get) => ({
       const nodes = [...s.nodes];
       const [node] = nodes.splice(from, 1);
       nodes.splice(toIndex, 0, node);
-      return { past: [...s.past, snapshot(s)], future: [], nodes };
+      return { past: [...s.past, takeSnapshot(s)], future: [], nodes };
     }),
 
-  // --- document props --------------------------------------------------
   setBackground: (color) =>
     set((s) => ({
-      past: [...s.past, snapshot(s)],
+      past: [...s.past, takeSnapshot(s)],
       future: [],
       background: color,
     })),
+
   setDocumentSize: (width, height) =>
     set((s) => ({
-      past: [...s.past, snapshot(s)],
+      past: [...s.past, takeSnapshot(s)],
       future: [],
       width,
       height,
     })),
 
-  reset: (init) =>
-    set({ ...defaults, ...init, past: [], future: [], tx: null }),
+  reset: (init) => {
+    revokeAllObjectUrls();
+    set({ ...defaults, ...init, past: [], future: [], tx: null });
+  },
 }));
