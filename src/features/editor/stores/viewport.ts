@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { Viewport } from "../types";
+import type { Viewport } from "../types/zome";
 
 const INITIAL: Viewport = { scale: 1, x: 0, y: 0 };
 
