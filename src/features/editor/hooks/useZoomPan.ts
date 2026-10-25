@@ -5,7 +5,7 @@ import type { KonvaEventObject } from "konva/lib/Node";
 import { useCallback, useRef } from "react";
 import { PINCH_STEP, WHEEL_STEP, zoomAt } from "../lib/zoom";
 import { useViewportStore } from "../stores/viewport";
-import type { Point } from "../types";
+import type { Point } from "../types/zome";
 
 interface PinchState {
   dist: number;
