@@ -2,12 +2,13 @@
 
 import type { KonvaEventObject } from "konva/lib/Node";
 import { memo, useCallback } from "react";
-import { Rect, Text } from "react-konva";
 import { useDocumentStore } from "../stores/document-store";
 import { useSelectionStore } from "../stores/selection-store";
 import type { EditorNode } from "../types/editor-node";
 import type { CommonNodeProps } from "./common-node-props";
 import { ImageNodeView } from "./image-node-view";
+import { ShapeNodeView } from "./shape-node-view";
+import { TextNodeView } from "./text-node-view";
 
 interface NodeRendererProps {
   node: EditorNode;
@@ -65,34 +66,10 @@ function NodeRendererImpl({ node }: NodeRendererProps) {
   };
 
   switch (node.type) {
-    case "text": {
-      const fontStyleParts: string[] = [];
-      if (node.bold) fontStyleParts.push("bold");
-      if (node.italic) fontStyleParts.push("italic");
-      const fontStyle = fontStyleParts.join(" ") || "normal";
-
-      const textDecorationParts: string[] = [];
-      if (node.underline) textDecorationParts.push("underline");
-      if (node.strikethrough) textDecorationParts.push("line-through");
-      const textDecoration = textDecorationParts.join(" ");
-
-      return (
-        <Text
-          {...common}
-          text={node.text}
-          fontSize={node.fontSize}
-          fontFamily={node.fontFamily}
-          fill={node.fill}
-          align={node.align}
-          fontStyle={fontStyle}
-          textDecoration={textDecoration}
-        />
-      );
-    }
+    case "text":
+      return <TextNodeView node={node} common={common} />;
     case "shape":
-      return (
-        <Rect {...common} fill={node.fill} cornerRadius={node.cornerRadius} />
-      );
+      return <ShapeNodeView node={node} common={common} />;
     case "image":
       return <ImageNodeView node={node} common={common} />;
     default: {
