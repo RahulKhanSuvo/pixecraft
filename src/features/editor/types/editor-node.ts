@@ -57,6 +57,7 @@ export interface ImageNode extends BaseNode {
 export type EditorNode = TextNode | ShapeNode | ImageNode;
 
 export interface DocumentSnapshot {
+  title?: string;
   width: number;
   height: number;
   background: string;
