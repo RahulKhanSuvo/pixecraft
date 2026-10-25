@@ -2,6 +2,7 @@
 
 import { memo } from "react";
 import { Circle, Line, Rect } from "react-konva";
+import { getKonvaBackgroundProps } from "../lib/color-utils";
 import type { ShapeNode } from "../types/editor-node";
 import type { CommonNodeProps } from "./common-node-props";
 
@@ -14,6 +15,8 @@ export const ShapeNodeView = memo(function ShapeNodeView({
   node,
   common,
 }: ShapeNodeViewProps) {
+  const fillProps = getKonvaBackgroundProps(node.fill, node.width, node.height);
+
   switch (node.shape) {
     case "circle": {
       const radius = Math.min(node.width, node.height) / 2;
@@ -23,7 +26,7 @@ export const ShapeNodeView = memo(function ShapeNodeView({
           x={node.x + radius}
           y={node.y + radius}
           radius={radius}
-          fill={node.fill}
+          {...fillProps}
         />
       );
     }
@@ -36,11 +39,11 @@ export const ShapeNodeView = memo(function ShapeNodeView({
         0,
         node.height,
       ];
-      return <Line {...common} points={points} closed fill={node.fill} />;
+      return <Line {...common} points={points} closed {...fillProps} />;
     }
-    case "rect":
+    default:
       return (
-        <Rect {...common} fill={node.fill} cornerRadius={node.cornerRadius} />
+        <Rect {...common} cornerRadius={node.cornerRadius} {...fillProps} />
       );
   }
 });
