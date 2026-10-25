@@ -5,7 +5,6 @@ import {
   CloudIcon,
   Download01Icon,
   Redo02Icon,
-  Resize01Icon,
   Undo02Icon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -19,14 +18,30 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useDocumentStore } from "../stores/document-store";
+import { useSelectionStore } from "../stores/selection-store";
+import { ResizeDialog } from "./resize-dialog";
 
 export function EditorTopBar() {
+  const selectedIds = useSelectionStore((s) => s.selectedIds);
+  const nodes = useDocumentStore((s) => s.nodes);
+  const updateNode = useDocumentStore((s) => s.updateNode);
+  const past = useDocumentStore((s) => s.past);
+  const future = useDocumentStore((s) => s.future);
+  const undo = useDocumentStore((s) => s.undo);
+  const redo = useDocumentStore((s) => s.redo);
+
+  const selectedNode =
+    selectedIds.length === 1
+      ? nodes.find((n) => n.id === selectedIds[0])
+      : null;
+
   return (
     <TooltipProvider>
       <header className="flex h-14 w-full shrink-0 items-center justify-between border-b bg-white px-4">
         {/* ─── Left Section ─── */}
         <div className="flex items-center gap-1.5">
-          {/* Brand Logo (Added role="img" and aria-label) */}
+          {/* Brand Logo */}
           <div className="mr-2 flex size-8 items-center justify-center rounded-md bg-black">
             <svg
               width="16"
@@ -50,25 +65,29 @@ export function EditorTopBar() {
 
           <Button
             variant="ghost"
-            className="text-muted-foreground hover:text-foreground"
+            className="text-muted-foreground hover:text-foreground text-xs h-8"
           >
             File
           </Button>
 
-          {/* Active Tool */}
-          <Button className="gap-2 bg-[#7c3aed] text-white hover:bg-[#6d28d9]">
-            <HugeiconsIcon icon={Resize01Icon} size={16} aria-hidden="true" />
-            Resize
-          </Button>
+          {/* Canvas Resize Dialog */}
+          <ResizeDialog />
 
-          {/* Undo / Redo (Added aria-label) */}
+          {/* Undo / Redo */}
           <div className="ml-2 flex items-center gap-0.5">
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" disabled aria-label="Undo">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  disabled={past.length === 0}
+                  onClick={undo}
+                  aria-label="Undo"
+                  className="size-8"
+                >
                   <HugeiconsIcon
                     icon={Undo02Icon}
-                    size={18}
+                    size={16}
                     aria-hidden="true"
                   />
                 </Button>
@@ -77,10 +96,17 @@ export function EditorTopBar() {
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" disabled aria-label="Redo">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  disabled={future.length === 0}
+                  onClick={redo}
+                  aria-label="Redo"
+                  className="size-8"
+                >
                   <HugeiconsIcon
                     icon={Redo02Icon}
-                    size={18}
+                    size={16}
                     aria-hidden="true"
                   />
                 </Button>
@@ -90,9 +116,52 @@ export function EditorTopBar() {
           </div>
         </div>
 
+        {/* ─── Center Section: Selected Item Dimensions / Resolution ─── */}
+        <div className="flex items-center gap-2">
+          {selectedNode ? (
+            <div className="flex items-center gap-2 rounded-md border border-border bg-muted/40 px-2 py-1 text-xs">
+              <span className="font-semibold text-muted-foreground uppercase text-[10px]">
+                {selectedNode.type}
+              </span>
+              <div className="flex items-center gap-1">
+                <span className="text-[11px] text-muted-foreground">W</span>
+                <input
+                  type="number"
+                  value={Math.round(selectedNode.width)}
+                  onChange={(e) =>
+                    updateNode(selectedNode.id, {
+                      width: Math.max(1, Number(e.target.value)),
+                    })
+                  }
+                  className="w-14 rounded border border-border bg-background px-1.5 py-0.5 text-center text-xs font-mono"
+                  aria-label="Item width in pixels"
+                />
+              </div>
+              <div className="flex items-center gap-1">
+                <span className="text-[11px] text-muted-foreground">H</span>
+                <input
+                  type="number"
+                  value={Math.round(selectedNode.height)}
+                  onChange={(e) =>
+                    updateNode(selectedNode.id, {
+                      height: Math.max(1, Number(e.target.value)),
+                    })
+                  }
+                  className="w-14 rounded border border-border bg-background px-1.5 py-0.5 text-center text-xs font-mono"
+                  aria-label="Item height in pixels"
+                />
+              </div>
+              <div className="flex items-center gap-1 text-muted-foreground text-[11px]">
+                <span>X: {Math.round(selectedNode.x)}</span>
+                <span>Y: {Math.round(selectedNode.y)}</span>
+              </div>
+            </div>
+          ) : null}
+        </div>
+
         {/* ─── Right Section ─── */}
         <div className="flex items-center gap-3">
-          {/* Cloud Sync Status (Added aria-label and role) */}
+          {/* Cloud Sync Status */}
           <div
             className="flex items-center justify-center text-emerald-500"
             role="status"
@@ -101,20 +170,25 @@ export function EditorTopBar() {
             <HugeiconsIcon icon={CloudIcon} size={20} aria-hidden="true" />
           </div>
 
-          {/* Document Title Input (Added aria-label) */}
+          {/* Document Title Input */}
           <Input
             defaultValue="Untitled"
             aria-label="Document title"
-            className="h-8 w-48 border-none bg-muted/50 text-center text-sm font-medium focus-visible:ring-1 focus-visible:ring-ring"
+            className="h-8 w-44 border-none bg-muted/50 text-center text-xs font-medium focus-visible:ring-1 focus-visible:ring-ring"
           />
 
-          {/* Export / Download (Added aria-label) */}
+          {/* Export / Download */}
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" aria-label="Export document">
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Export document"
+                className="size-8"
+              >
                 <HugeiconsIcon
                   icon={Download01Icon}
-                  size={20}
+                  size={18}
                   aria-hidden="true"
                 />
               </Button>
@@ -122,7 +196,7 @@ export function EditorTopBar() {
             <TooltipContent>Export</TooltipContent>
           </Tooltip>
 
-          {/* User Avatar Dropdown (Added aria-label) */}
+          {/* User Avatar */}
           <button
             type="button"
             aria-label="User menu"
