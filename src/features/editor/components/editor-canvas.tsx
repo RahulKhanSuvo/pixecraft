@@ -3,9 +3,13 @@
 import type Konva from "konva";
 import type { KonvaEventObject } from "konva/lib/Node";
 import { useCallback } from "react";
-import { Layer, Stage } from "react-konva";
+import { Group, Layer, Rect, Stage } from "react-konva";
 
+import { NodesLayer } from "../canvas/nodes-layer";
+import { SelectionTransformer } from "../canvas/selection-transformer";
 import { useZoomPan } from "../hooks/useZoomPan";
+import { useDocumentStore } from "../stores/document-store";
+import { useSelectionStore } from "../stores/selection-store";
 import { useViewportStore } from "../stores/viewport";
 
 interface EditorCanvasProps {
@@ -16,6 +20,11 @@ interface EditorCanvasProps {
 
 export function EditorCanvas({ stageRef, width, height }: EditorCanvasProps) {
   const viewport = useViewportStore((s) => s.viewport);
+  const docWidth = useDocumentStore((s) => s.width);
+  const docHeight = useDocumentStore((s) => s.height);
+  const background = useDocumentStore((s) => s.background);
+  const clearSelection = useSelectionStore((s) => s.clear);
+
   const { handleWheel, handleTouchMove, handleTouchEnd } = useZoomPan(stageRef);
 
   const handleDragEnd = useCallback((e: KonvaEventObject<DragEvent>): void => {
@@ -24,7 +33,16 @@ export function EditorCanvas({ stageRef, width, height }: EditorCanvasProps) {
     const { viewport: v, setViewport } = useViewportStore.getState();
     setViewport({ ...v, x: stage.x(), y: stage.y() });
   }, []);
-  console.log(width);
+
+  const handleStageClick = useCallback(
+    (e: KonvaEventObject<MouseEvent>) => {
+      if (e.target === e.target.getStage()) {
+        clearSelection();
+      }
+    },
+    [clearSelection],
+  );
+
   return (
     <Stage
       ref={stageRef}
@@ -39,9 +57,26 @@ export function EditorCanvas({ stageRef, width, height }: EditorCanvasProps) {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
       onDragEnd={handleDragEnd}
+      onClick={handleStageClick}
       style={{ background: "#f5f5f5" }}
     >
-      <Layer></Layer>
+      <Layer>
+        <Rect
+          x={0}
+          y={0}
+          width={docWidth}
+          height={docHeight}
+          fill={background}
+          shadowColor="rgba(0,0,0,0.25)"
+          shadowBlur={24}
+          shadowOffsetY={4}
+          listening={false}
+        />
+        <Group clipX={0} clipY={0} clipWidth={docWidth} clipHeight={docHeight}>
+          <NodesLayer />
+        </Group>
+        <SelectionTransformer />
+      </Layer>
     </Stage>
   );
 }
