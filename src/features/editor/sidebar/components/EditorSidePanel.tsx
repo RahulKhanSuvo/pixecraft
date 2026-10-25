@@ -15,7 +15,7 @@ export function EditorSidePanel() {
       <h2>{activeTool}</h2>
 
       {activeTool === "templates" && <p>Browse templates</p>}
-      {activeTool === "images" && <p>Browse images</p>}
+      {activeTool === "photos" && <p>Browse images</p>}
       {activeTool === "text" && <p>Add text elements</p>}
     </aside>
   );
