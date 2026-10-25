@@ -15,7 +15,11 @@ export interface TextNode extends BaseNode {
   fontSize: number;
   fontFamily: string;
   fill: string;
-  align: "left" | "center" | "right";
+  align: "left" | "center" | "right" | "justify";
+  bold?: boolean;
+  italic?: boolean;
+  underline?: boolean;
+  strikethrough?: boolean;
 }
 
 export interface ShapeNode extends BaseNode {

@@ -65,7 +65,17 @@ function NodeRendererImpl({ node }: NodeRendererProps) {
   };
 
   switch (node.type) {
-    case "text":
+    case "text": {
+      const fontStyleParts: string[] = [];
+      if (node.bold) fontStyleParts.push("bold");
+      if (node.italic) fontStyleParts.push("italic");
+      const fontStyle = fontStyleParts.join(" ") || "normal";
+
+      const textDecorationParts: string[] = [];
+      if (node.underline) textDecorationParts.push("underline");
+      if (node.strikethrough) textDecorationParts.push("line-through");
+      const textDecoration = textDecorationParts.join(" ");
+
       return (
         <Text
           {...common}
@@ -74,8 +84,11 @@ function NodeRendererImpl({ node }: NodeRendererProps) {
           fontFamily={node.fontFamily}
           fill={node.fill}
           align={node.align}
+          fontStyle={fontStyle}
+          textDecoration={textDecoration}
         />
       );
+    }
     case "shape":
       return (
         <Rect {...common} fill={node.fill} cornerRadius={node.cornerRadius} />
