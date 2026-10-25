@@ -15,6 +15,7 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useDocumentStore } from "../../stores/document-store";
 import type { TextNode } from "../../types/editor-node";
+import { ColorPickerButton } from "../color-picker/color-picker-button";
 
 const FONT_FAMILIES = [
   "Inter",
@@ -79,23 +80,11 @@ export function TextOptions({ node }: TextOptionsProps) {
   return (
     <div className="flex items-center gap-1.5">
       {/* Fill color swatch */}
-      <label
-        className="relative flex cursor-pointer items-center"
-        aria-label="Text color"
-      >
-        <input
-          type="color"
-          value={node.fill}
-          onChange={(e) => updateNode(node.id, { fill: e.target.value })}
-          className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
-          aria-label="Text color picker"
-        />
-        <span
-          className="inline-block size-5 rounded-[4px] border border-border shadow-sm"
-          style={{ background: node.fill }}
-          aria-hidden="true"
-        />
-      </label>
+      <ColorPickerButton
+        value={node.fill}
+        onChange={(fill) => updateNode(node.id, { fill })}
+        showHex={false}
+      />
 
       <Separator />
 
