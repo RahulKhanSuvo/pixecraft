@@ -1,4 +1,4 @@
-import type { Point, Viewport } from "../types/zome";
+import type { Point, Viewport } from "../types/view-type";
 
 export const MIN_SCALE = 0.1;
 export const MAX_SCALE = 8;

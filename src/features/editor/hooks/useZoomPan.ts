@@ -11,7 +11,7 @@ import {
 } from "../lib/zoom";
 import { useDocumentStore } from "../stores/document-store";
 import { useViewportStore } from "../stores/viewport";
-import type { Point } from "../types/zome";
+import type { Point } from "../types/view-type";
 
 interface PinchState {
   dist: number;
