@@ -2,6 +2,7 @@
 
 import { useDocumentStore } from "../../stores/document-store";
 import type { ShapeNode } from "../../types/editor-node";
+import { ColorPickerButton } from "../color-picker/color-picker-button";
 
 interface ShapeOptionsProps {
   node: ShapeNode;
@@ -13,24 +14,11 @@ export function ShapeOptions({ node }: ShapeOptionsProps) {
   return (
     <div className="flex items-center gap-3">
       {/* Fill color */}
-      <label className="flex items-center gap-1.5 text-xs text-muted-foreground cursor-pointer">
-        <span>Fill</span>
-        <span className="relative flex items-center">
-          <input
-            type="color"
-            value={node.fill}
-            onChange={(e) => updateNode(node.id, { fill: e.target.value })}
-            className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
-            aria-label="Shape fill color"
-          />
-          <span
-            className="inline-block size-5 rounded border border-border shadow-sm"
-            style={{ background: node.fill }}
-            aria-hidden="true"
-          />
-        </span>
-        <span className="font-mono text-foreground">{node.fill}</span>
-      </label>
+      <ColorPickerButton
+        label="Fill"
+        value={node.fill}
+        onChange={(fill) => updateNode(node.id, { fill })}
+      />
 
       <div className="h-4 w-px bg-border" aria-hidden="true" />
 
