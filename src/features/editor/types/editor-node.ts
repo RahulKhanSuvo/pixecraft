@@ -1,0 +1,41 @@
+export interface BaseNode {
+  id: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  rotation: number;
+  opacity: number;
+  locked?: boolean;
+}
+
+export interface TextNode extends BaseNode {
+  type: "text";
+  text: string;
+  fontSize: number;
+  fontFamily: string;
+  fill: string;
+  align: "left" | "center" | "right";
+}
+
+export interface ShapeNode extends BaseNode {
+  type: "shape";
+  shape: "rect" | "circle" | "triangle";
+  fill: string;
+  cornerRadius?: number;
+}
+
+export interface ImageNode extends BaseNode {
+  type: "image";
+  src: string;
+  cornerRadius?: number;
+}
+
+export type EditorNode = TextNode | ShapeNode | ImageNode;
+
+export interface DocumentSnapshot {
+  width: number;
+  height: number;
+  background: string;
+  nodes: EditorNode[];
+}
