@@ -8,6 +8,7 @@ import { Group, Layer, Rect, Stage } from "react-konva";
 import { NodesLayer } from "../canvas/nodes-layer";
 import { SelectionTransformer } from "../canvas/selection-transformer";
 import { useZoomPan } from "../hooks/useZoomPan";
+import { getKonvaBackgroundProps } from "../lib/color-utils";
 import { useDocumentStore } from "../stores/document-store";
 import { useSelectionStore } from "../stores/selection-store";
 import { useViewportStore } from "../stores/viewport";
@@ -24,6 +25,8 @@ export function EditorCanvas({ stageRef, width, height }: EditorCanvasProps) {
   const docHeight = useDocumentStore((s) => s.height);
   const background = useDocumentStore((s) => s.background);
   const clearSelection = useSelectionStore((s) => s.clear);
+
+  const bgProps = getKonvaBackgroundProps(background, docWidth, docHeight);
 
   const { handleWheel, handleTouchMove, handleTouchEnd } = useZoomPan(stageRef);
 
@@ -66,7 +69,7 @@ export function EditorCanvas({ stageRef, width, height }: EditorCanvasProps) {
           y={0}
           width={docWidth}
           height={docHeight}
-          fill={background}
+          {...bgProps}
           shadowColor="rgba(0,0,0,0.25)"
           shadowBlur={24}
           shadowOffsetY={4}
