@@ -3,7 +3,13 @@
 import type Konva from "konva";
 import type { KonvaEventObject } from "konva/lib/Node";
 import { useCallback, useRef } from "react";
-import { PINCH_STEP, WHEEL_STEP, zoomAt } from "../lib/zoom";
+import {
+  calculateFitViewport,
+  PINCH_STEP,
+  WHEEL_STEP,
+  zoomAt,
+} from "../lib/zoom";
+import { useDocumentStore } from "../stores/document-store";
 import { useViewportStore } from "../stores/viewport";
 import type { Point } from "../types/zome";
 
@@ -105,7 +111,21 @@ export function useZoomPan(
     [apply, stageRef],
   );
 
-  const reset = useViewportStore((s) => s.reset);
+  const reset = useCallback((): void => {
+    const stage = stageRef.current;
+    if (!stage) {
+      useViewportStore.getState().reset();
+      return;
+    }
+    const { width: docWidth, height: docHeight } = useDocumentStore.getState();
+    const fit = calculateFitViewport(
+      stage.width(),
+      stage.height(),
+      docWidth,
+      docHeight,
+    );
+    useViewportStore.getState().setViewport(fit);
+  }, [stageRef]);
 
   return { handleWheel, handleTouchMove, handleTouchEnd, zoomBy, reset };
 }
