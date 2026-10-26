@@ -102,3 +102,11 @@ export const DESIGN_FORMATS: FormatCategory[] = [
     ],
   },
 ];
+
+export function getAllDesignFormats(): DesignFormat[] {
+  return DESIGN_FORMATS.flatMap((cat) => cat.items);
+}
+
+export function findDesignFormatById(id: string): DesignFormat | undefined {
+  return getAllDesignFormats().find((item) => item.id === id);
+}
