@@ -18,7 +18,7 @@ export function createTextNode(overrides: Partial<TextNode> = {}): TextNode {
     fontSize: 32,
     fontFamily: "Inter",
     fill: "#111111",
-    align: "left",
+    align: "center",
     ...overrides,
   };
 }
