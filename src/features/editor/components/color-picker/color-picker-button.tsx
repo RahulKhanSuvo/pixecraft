@@ -36,7 +36,7 @@ export function ColorPickerButton({
             aria-label={label || "Choose color"}
           >
             <span
-              className="inline-block size-5 rounded-[4px] border border-border/80 shadow-xs bg-cover bg-center"
+              className="inline-block size-5 rounded-lg border border-border/80 shadow-xs bg-cover bg-center"
               style={{
                 background: isImage
                   ? `url("${value}") center/cover no-repeat`
@@ -47,7 +47,7 @@ export function ColorPickerButton({
               aria-hidden="true"
             />
             {showHex && (
-              <span className="font-mono text-[11px] text-foreground max-w-[80px] truncate">
+              <span className="font-mono text-[11px] text-foreground max-w-20 truncate">
                 {isImage
                   ? "Image"
                   : isTransparent
