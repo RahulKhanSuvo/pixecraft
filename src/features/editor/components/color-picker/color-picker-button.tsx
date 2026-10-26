@@ -5,6 +5,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { isImageUrl } from "../../lib/color-utils";
 import { ColorPicker } from "./color-picker";
 
 interface ColorPickerButtonProps {
@@ -21,6 +22,8 @@ export function ColorPickerButton({
   showHex = true,
 }: ColorPickerButtonProps) {
   const isGradient = value.startsWith("linear-gradient");
+  const isImage = isImageUrl(value);
+  const isTransparent = value === "transparent";
 
   return (
     <div className="flex items-center gap-1.5">
@@ -33,13 +36,25 @@ export function ColorPickerButton({
             aria-label={label || "Choose color"}
           >
             <span
-              className="inline-block size-5 rounded-[4px] border border-border/80 shadow-xs"
-              style={{ background: value }}
+              className="inline-block size-5 rounded-[4px] border border-border/80 shadow-xs bg-cover bg-center"
+              style={{
+                background: isImage
+                  ? `url("${value}") center/cover no-repeat`
+                  : isTransparent
+                    ? "repeating-conic-gradient(#cbd5e1 0% 25%, #ffffff 0% 50%) 50% / 6px 6px"
+                    : value,
+              }}
               aria-hidden="true"
             />
             {showHex && (
               <span className="font-mono text-[11px] text-foreground max-w-[80px] truncate">
-                {isGradient ? "Gradient" : value}
+                {isImage
+                  ? "Image"
+                  : isTransparent
+                    ? "None"
+                    : isGradient
+                      ? "Gradient"
+                      : value}
               </span>
             )}
           </button>
