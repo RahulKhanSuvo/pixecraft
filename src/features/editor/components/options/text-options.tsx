@@ -1,6 +1,8 @@
 "use client";
 
 import {
+  ArrowDown01Icon,
+  ArrowUp01Icon,
   BoldIcon,
   ItalicIcon,
   StrikethroughIcon,
@@ -14,15 +16,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { useDocumentStore } from "../../stores/document-store";
 import type { TextNode } from "../../types/editor-node";
 import { ColorPickerButton } from "../color-picker/color-picker-button";
-
-const FONT_FAMILIES = [
-  "Inter",
-  "Roboto",
-  "Georgia",
-  "Courier New",
-  "Arial",
-  "Times New Roman",
-];
+import { FontPickerPopover } from "../font-picker/font-picker-popover";
 
 const ALIGN_OPTIONS = [
   { value: "left" as const, icon: TextAlignLeftIcon, label: "Align left" },
@@ -87,21 +81,13 @@ export function TextOptions({ node }: TextOptionsProps) {
       <Separator />
 
       {/* Font family */}
-      <select
+      <FontPickerPopover
         value={node.fontFamily}
-        onChange={(e) => updateNode(node.id, { fontFamily: e.target.value })}
-        className="h-7 max-w-24 rounded border border-border bg-background px-1.5 text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
-        aria-label="Font family"
-      >
-        {FONT_FAMILIES.map((f) => (
-          <option key={f} value={f}>
-            {f}
-          </option>
-        ))}
-      </select>
+        onChange={(fontFamily) => updateNode(node.id, { fontFamily })}
+      />
 
-      {/* Font size */}
-      <div className="flex h-7 items-center overflow-hidden rounded border border-border bg-background focus-within:ring-1 focus-within:ring-ring">
+      {/* Font size stepper */}
+      <div className="flex h-7 items-center rounded border border-border bg-background focus-within:ring-1 focus-within:ring-ring">
         <input
           type="number"
           min={1}
@@ -112,9 +98,35 @@ export function TextOptions({ node }: TextOptionsProps) {
               fontSize: Math.max(1, Number(e.target.value)),
             })
           }
-          className="w-12 bg-transparent px-1.5 text-center text-xs font-mono focus:outline-none"
+          className="w-10 bg-transparent px-1 text-center text-xs font-mono focus:outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
           aria-label="Font size"
         />
+        <div className="flex flex-col border-l border-border h-full">
+          <button
+            type="button"
+            onClick={() =>
+              updateNode(node.id, {
+                fontSize: Math.min(999, node.fontSize + 1),
+              })
+            }
+            aria-label="Increase font size"
+            className="flex h-3.5 w-4 items-center justify-center text-muted-foreground hover:bg-muted hover:text-foreground cursor-pointer"
+          >
+            <HugeiconsIcon icon={ArrowUp01Icon} size={9} strokeWidth={2.5} />
+          </button>
+          <button
+            type="button"
+            onClick={() =>
+              updateNode(node.id, {
+                fontSize: Math.max(1, node.fontSize - 1),
+              })
+            }
+            aria-label="Decrease font size"
+            className="flex h-3.5 w-4 items-center justify-center border-t border-border text-muted-foreground hover:bg-muted hover:text-foreground cursor-pointer"
+          >
+            <HugeiconsIcon icon={ArrowDown01Icon} size={9} strokeWidth={2.5} />
+          </button>
+        </div>
       </div>
 
       <Separator />
