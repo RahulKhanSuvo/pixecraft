@@ -309,3 +309,14 @@ export const PRESET_COLORS = [
   "#e5e7eb", // Light Gray
   "#ffffff", // White
 ];
+
+export function isImageUrl(value?: string | null): boolean {
+  if (!value) return false;
+  return (
+    value.startsWith("http://") ||
+    value.startsWith("https://") ||
+    value.startsWith("data:image/") ||
+    value.startsWith("blob:") ||
+    value.startsWith("/")
+  );
+}
