@@ -3,13 +3,11 @@
 import {
   BoldIcon,
   ItalicIcon,
-  LeftToRightListBulletIcon,
   StrikethroughIcon,
   TextAlignCenterIcon,
   TextAlignJustifyIcon,
   TextAlignLeftIcon,
   TextAlignRightIcon,
-  TextAllCapsIcon,
   TextUnderlineIcon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -166,30 +164,6 @@ export function TextOptions({ node }: TextOptionsProps) {
           />
         ))}
       </fieldset>
-
-      <Separator />
-
-      {/* List */}
-      <button
-        type="button"
-        aria-label="List"
-        className="flex h-7 w-7 items-center justify-center rounded text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-      >
-        <HugeiconsIcon
-          icon={LeftToRightListBulletIcon}
-          size={14}
-          aria-hidden="true"
-        />
-      </button>
-
-      {/* Aa — text case */}
-      <button
-        type="button"
-        aria-label="Text case"
-        className="flex h-7 w-7 items-center justify-center rounded text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-      >
-        <HugeiconsIcon icon={TextAllCapsIcon} size={14} aria-hidden="true" />
-      </button>
     </div>
   );
 }
