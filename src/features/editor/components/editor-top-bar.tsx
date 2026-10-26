@@ -85,6 +85,9 @@ export function EditorTopBar() {
         const layer = stage.getLayers()[0];
         if (!layer) return;
 
+        const checkerboard = layer.findOne(".canvas-checkerboard");
+        if (checkerboard) checkerboard.visible(false);
+
         const dataUrl = layer.toDataURL({
           x: 0,
           y: 0,
@@ -92,6 +95,11 @@ export function EditorTopBar() {
           height: docHeight,
           pixelRatio: 2,
         });
+
+        if (checkerboard) {
+          checkerboard.visible(true);
+          layer.batchDraw();
+        }
 
         const safeFilename = `${(title.trim() || "untitled-design")
           .toLowerCase()
