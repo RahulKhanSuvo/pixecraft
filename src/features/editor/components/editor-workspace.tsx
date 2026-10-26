@@ -18,18 +18,24 @@ export function EditorWorkspace() {
 
   const docWidth = useDocumentStore((s) => s.width);
   const docHeight = useDocumentStore((s) => s.height);
+  const lastDimensionsRef = useRef({ width: docWidth, height: docHeight });
 
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
+
+    const dimensionsChanged =
+      lastDimensionsRef.current.width !== docWidth ||
+      lastDimensionsRef.current.height !== docHeight;
 
     const update = (): void => {
       const w = el.clientWidth;
       const h = el.clientHeight;
       setSize({ width: w, height: h });
 
-      if (!hasFittedRef.current && w > 0 && h > 0) {
+      if ((!hasFittedRef.current || dimensionsChanged) && w > 0 && h > 0) {
         hasFittedRef.current = true;
+        lastDimensionsRef.current = { width: docWidth, height: docHeight };
         const fit = calculateFitViewport(w, h, docWidth, docHeight);
         useViewportStore.getState().setViewport(fit);
       }
