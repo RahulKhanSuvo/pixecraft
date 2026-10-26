@@ -92,7 +92,7 @@ export function TextOptions({ node }: TextOptionsProps) {
       <select
         value={node.fontFamily}
         onChange={(e) => updateNode(node.id, { fontFamily: e.target.value })}
-        className="h-7 max-w-[96px] rounded border border-border bg-background px-1.5 text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+        className="h-7 max-w-24 rounded border border-border bg-background px-1.5 text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
         aria-label="Font family"
       >
         {FONT_FAMILIES.map((f) => (
