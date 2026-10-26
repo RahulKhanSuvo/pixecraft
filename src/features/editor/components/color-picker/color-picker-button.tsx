@@ -19,7 +19,7 @@ export function ColorPickerButton({
   label,
   value,
   onChange,
-  showHex = true,
+  showHex = false,
 }: ColorPickerButtonProps) {
   const isGradient = value.startsWith("linear-gradient");
   const isImage = isImageUrl(value);
@@ -32,11 +32,11 @@ export function ColorPickerButton({
         <PopoverTrigger asChild>
           <button
             type="button"
-            className="flex items-center gap-1.5 rounded-md border border-border p-1 hover:bg-muted/60 transition-colors focus:outline-none focus:ring-1 focus:ring-ring cursor-pointer"
+            className="flex items-center gap-1.5 rounded-md border border-border hover:bg-muted/60 transition-colors focus:outline-none focus:ring-1 focus:ring-ring cursor-pointer"
             aria-label={label || "Choose color"}
           >
             <span
-              className="inline-block size-5 rounded-lg border border-border/80 shadow-xs bg-cover bg-center"
+              className="inline-block size-7 rounded-lg border border-border/80 shadow-xs bg-cover bg-center"
               style={{
                 background: isImage
                   ? `url("${value}") center/cover no-repeat`
