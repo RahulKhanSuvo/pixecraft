@@ -12,7 +12,9 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { CreateDesignModal } from "./create-design/create-design-modal";
 
 const navItems = [
   { id: "home", label: "Home", href: "/", icon: Home03Icon },
@@ -33,127 +35,135 @@ const navItems = [
 
 export function HomeSidebar() {
   const pathname = usePathname();
+  const [createModalOpen, setCreateModalOpen] = useState(false);
 
   return (
-    <aside className="flex h-full w-19 shrink-0 flex-col items-center border-r border-border bg-sidebar py-4 select-none">
-      {/* Top "Create New" Button */}
-      <div className="mb-3 flex flex-col items-center">
-        <Link
-          href="/editor"
-          className="group flex flex-col items-center gap-1 focus:outline-none"
-          aria-label="Create new design"
-        >
-          <div className="flex size-11 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-xs transition-transform group-hover:scale-105 active:scale-95">
-            <HugeiconsIcon strokeWidth={3} icon={PlusSignIcon} size={22} />
-          </div>
-          <span className="text-[11px] font-medium text-foreground">
-            Create
-          </span>
-        </Link>
-      </div>
+    <>
+      <aside className="flex h-full w-19 shrink-0 flex-col items-center border-r border-border bg-sidebar py-4 select-none">
+        {/* Top "Create New" Button */}
+        <div className="mb-3 flex flex-col items-center">
+          <button
+            type="button"
+            onClick={() => setCreateModalOpen(true)}
+            className="group flex flex-col items-center gap-1 focus:outline-none cursor-pointer"
+            aria-label="Create new design"
+          >
+            <div className="flex size-11 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-xs transition-transform group-hover:scale-105 active:scale-95">
+              <HugeiconsIcon strokeWidth={3} icon={PlusSignIcon} size={22} />
+            </div>
+            <span className="text-[11px] font-medium text-foreground">
+              Create
+            </span>
+          </button>
+        </div>
 
-      {/* Main Navigation */}
-      <nav
-        className="flex w-full flex-col items-center gap-2 px-2"
-        aria-label="Main navigation"
-      >
-        {navItems.map((item) => {
-          const isActive = pathname === item.href;
-          return (
-            <Link
-              key={item.id}
-              href={item.href}
-              className="group relative flex w-full flex-col items-center justify-center gap-1 py-1 focus:outline-none"
-              aria-current={isActive ? "page" : undefined}
-            >
-              {/* Icon Container (Active Pill Style using your theme colors) */}
-              <div
-                className={cn(
-                  "relative flex h-10 w-10 items-center justify-center rounded-2xl overflow-hidden transition-all duration-200",
-                  isActive
-                    ? "bg-primary/10 text-primary dark:bg-primary/20"
-                    : "text-muted-foreground group-hover:bg-muted/70 group-hover:text-foreground",
-                )}
+        {/* Main Navigation */}
+        <nav
+          className="flex w-full flex-col items-center gap-2 px-2"
+          aria-label="Main navigation"
+        >
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.id}
+                href={item.href}
+                className="group relative flex w-full flex-col items-center justify-center gap-1 py-1 focus:outline-none"
+                aria-current={isActive ? "page" : undefined}
               >
-                <HugeiconsIcon
-                  icon={item.icon}
-                  size={26}
+                {/* Icon Container (Active Pill Style using your theme colors) */}
+                <div
                   className={cn(
-                    "transition-colors",
+                    "relative flex h-10 w-10 items-center justify-center rounded-2xl overflow-hidden transition-all duration-200",
                     isActive
-                      ? "text-primary"
+                      ? "bg-primary/10 text-primary dark:bg-primary/20"
+                      : "text-muted-foreground group-hover:bg-muted/70 group-hover:text-foreground",
+                  )}
+                >
+                  <HugeiconsIcon
+                    icon={item.icon}
+                    size={26}
+                    className={cn(
+                      "transition-colors",
+                      isActive
+                        ? "text-primary"
+                        : "text-muted-foreground group-hover:text-foreground",
+                    )}
+                    aria-hidden="true"
+                  />
+                </div>
+
+                {/* Label */}
+                <span
+                  className={cn(
+                    "max-w-full truncate px-1 text-center text-[10px] font-medium leading-tight tracking-tight",
+                    isActive
+                      ? "font-semibold text-primary"
                       : "text-muted-foreground group-hover:text-foreground",
                   )}
-                  aria-hidden="true"
-                />
-              </div>
+                >
+                  {item.label}
+                </span>
+              </Link>
+            );
+          })}
+        </nav>
 
-              {/* Label */}
-              <span
+        {/* Bottom Section: Settings & Profile Avatar */}
+        <div className="mt-auto flex w-full flex-col items-center gap-3 px-2 pt-4">
+          {/* Settings */}
+          <Link
+            href="/settings"
+            className="group relative flex w-full flex-col items-center justify-center gap-1 py-1 focus:outline-none"
+            aria-label="Settings"
+            aria-current={pathname === "/settings" ? "page" : undefined}
+          >
+            <div
+              className={cn(
+                "flex h-9 w-12 items-center justify-center rounded-xl transition-all duration-200",
+                pathname === "/settings"
+                  ? "bg-primary/10 text-primary dark:bg-primary/20"
+                  : "text-muted-foreground group-hover:bg-muted/70 group-hover:text-foreground",
+              )}
+            >
+              <HugeiconsIcon
+                icon={Settings02Icon}
+                size={20}
                 className={cn(
-                  "max-w-full truncate px-1 text-center text-[10px] font-medium leading-tight tracking-tight",
-                  isActive
-                    ? "font-semibold text-primary"
+                  "transition-colors",
+                  pathname === "/settings"
+                    ? "text-primary"
                     : "text-muted-foreground group-hover:text-foreground",
                 )}
-              >
-                {item.label}
-              </span>
-            </Link>
-          );
-        })}
-      </nav>
-
-      {/* Bottom Section: Settings & Profile Avatar */}
-      <div className="mt-auto flex w-full flex-col items-center gap-3 px-2 pt-4">
-        {/* Settings */}
-        <Link
-          href="/settings"
-          className="group relative flex w-full flex-col items-center justify-center gap-1 py-1 focus:outline-none"
-          aria-label="Settings"
-          aria-current={pathname === "/settings" ? "page" : undefined}
-        >
-          <div
-            className={cn(
-              "flex h-9 w-12 items-center justify-center rounded-xl transition-all duration-200",
-              pathname === "/settings"
-                ? "bg-primary/10 text-primary dark:bg-primary/20"
-                : "text-muted-foreground group-hover:bg-muted/70 group-hover:text-foreground",
-            )}
-          >
-            <HugeiconsIcon
-              icon={Settings02Icon}
-              size={20}
+                aria-hidden="true"
+              />
+            </div>
+            <span
               className={cn(
-                "transition-colors",
+                "text-center text-[10px] font-medium leading-tight tracking-tight",
                 pathname === "/settings"
-                  ? "text-primary"
+                  ? "font-semibold text-primary"
                   : "text-muted-foreground group-hover:text-foreground",
               )}
-              aria-hidden="true"
-            />
-          </div>
-          <span
-            className={cn(
-              "text-center text-[10px] font-medium leading-tight tracking-tight",
-              pathname === "/settings"
-                ? "font-semibold text-primary"
-                : "text-muted-foreground group-hover:text-foreground",
-            )}
-          >
-            Settings
-          </span>
-        </Link>
+            >
+              Settings
+            </span>
+          </Link>
 
-        {/* Profile Avatar */}
-        <Link
-          href="/profile"
-          className="mt-1 flex size-9 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground shadow-xs transition-transform hover:scale-105 active:scale-95"
-          aria-label="User Profile"
-        >
-          RK
-        </Link>
-      </div>
-    </aside>
+          {/* Profile Avatar */}
+          <Link
+            href="/profile"
+            className="mt-1 flex size-9 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground shadow-xs transition-transform hover:scale-105 active:scale-95"
+            aria-label="User Profile"
+          >
+            RK
+          </Link>
+        </div>
+      </aside>
+      <CreateDesignModal
+        open={createModalOpen}
+        onOpenChange={setCreateModalOpen}
+      />
+    </>
   );
 }
