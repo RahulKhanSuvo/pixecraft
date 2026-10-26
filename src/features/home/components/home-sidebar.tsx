@@ -1,9 +1,9 @@
 "use client";
 
 import {
-  AiTemplateIcon,
   FolderLibraryIcon,
-  Home01Icon,
+  Home03Icon,
+  Layout02Icon,
   PlusSignIcon,
   Settings02Icon,
   Upload02Icon,
@@ -15,7 +15,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { id: "home", label: "Home", href: "/", icon: Home01Icon },
+  { id: "home", label: "Home", href: "/", icon: Home03Icon },
   {
     id: "projects",
     label: "Projects",
@@ -26,7 +26,7 @@ const navItems = [
     id: "templates",
     label: "Templates",
     href: "/templates",
-    icon: AiTemplateIcon,
+    icon: Layout02Icon,
   },
   { id: "uploads", label: "Uploads", href: "/uploads", icon: Upload02Icon },
 ] as const;
@@ -44,7 +44,7 @@ export function HomeSidebar() {
           aria-label="Create new design"
         >
           <div className="flex size-11 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-xs transition-transform group-hover:scale-105 active:scale-95">
-            <HugeiconsIcon icon={PlusSignIcon} size={22} strokeWidth={2.5} />
+            <HugeiconsIcon strokeWidth={3} icon={PlusSignIcon} size={22} />
           </div>
           <span className="text-[11px] font-medium text-foreground">
             Create
@@ -69,7 +69,7 @@ export function HomeSidebar() {
               {/* Icon Container (Active Pill Style using your theme colors) */}
               <div
                 className={cn(
-                  "relative flex h-9 w-12 items-center justify-center rounded-xl transition-all duration-200",
+                  "relative flex h-10 w-10 items-center justify-center rounded-2xl overflow-hidden transition-all duration-200",
                   isActive
                     ? "bg-primary/10 text-primary dark:bg-primary/20"
                     : "text-muted-foreground group-hover:bg-muted/70 group-hover:text-foreground",
@@ -77,7 +77,7 @@ export function HomeSidebar() {
               >
                 <HugeiconsIcon
                   icon={item.icon}
-                  size={20}
+                  size={26}
                   className={cn(
                     "transition-colors",
                     isActive
