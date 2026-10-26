@@ -3,12 +3,12 @@
 import type Konva from "konva";
 import type { KonvaEventObject } from "konva/lib/Node";
 import { useCallback } from "react";
-import { Group, Layer, Rect, Stage } from "react-konva";
+import { Group, Layer, Stage } from "react-konva";
 
+import { CanvasBackground } from "../canvas/canvas-background";
 import { NodesLayer } from "../canvas/nodes-layer";
 import { SelectionTransformer } from "../canvas/selection-transformer";
 import { useZoomPan } from "../hooks/useZoomPan";
-import { getKonvaBackgroundProps } from "../lib/color-utils";
 import { useDocumentStore } from "../stores/document-store";
 import { useSelectionStore } from "../stores/selection-store";
 import { useViewportStore } from "../stores/viewport";
@@ -25,8 +25,6 @@ export function EditorCanvas({ stageRef, width, height }: EditorCanvasProps) {
   const docHeight = useDocumentStore((s) => s.height);
   const background = useDocumentStore((s) => s.background);
   const clearSelection = useSelectionStore((s) => s.clear);
-
-  const bgProps = getKonvaBackgroundProps(background, docWidth, docHeight);
 
   const { handleWheel, handleTouchMove, handleTouchEnd } = useZoomPan(stageRef);
 
@@ -64,16 +62,10 @@ export function EditorCanvas({ stageRef, width, height }: EditorCanvasProps) {
       style={{ background: "#f5f5f5" }}
     >
       <Layer>
-        <Rect
-          x={0}
-          y={0}
+        <CanvasBackground
+          background={background}
           width={docWidth}
           height={docHeight}
-          {...bgProps}
-          shadowColor="rgba(0,0,0,0.25)"
-          shadowBlur={24}
-          shadowOffsetY={4}
-          listening={false}
         />
         <Group clipX={0} clipY={0} clipWidth={docWidth} clipHeight={docHeight}>
           <NodesLayer />
