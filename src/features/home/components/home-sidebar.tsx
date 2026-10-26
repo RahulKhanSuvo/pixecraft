@@ -2,7 +2,6 @@
 
 import {
   AiTemplateIcon,
-  BrandfetchIcon,
   FolderLibraryIcon,
   Home01Icon,
   PlusSignIcon,
@@ -30,90 +29,129 @@ const navItems = [
     icon: AiTemplateIcon,
   },
   { id: "uploads", label: "Uploads", href: "/uploads", icon: Upload02Icon },
-  { id: "brand", label: "Brand Assets", href: "/brand", icon: BrandfetchIcon },
 ] as const;
 
 export function HomeSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="flex h-full w-60 shrink-0 flex-col border-r border-border bg-sidebar">
-      {/* Brand Logo */}
-      <div className="flex h-14 items-center gap-2.5 px-4">
-        <div className="flex size-7 items-center justify-center rounded-lg bg-primary shadow-xs">
-          <svg
-            width="15"
-            height="15"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            role="img"
-            aria-label="Pixecraft Logo"
-          >
-            <path
-              d="M6 6V18M6 12L14 6M6 12L14 18"
-              stroke="white"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-            />
-            <circle cx="18" cy="6" r="2.2" fill="white" />
-          </svg>
-        </div>
-        <span className="font-heading text-base font-semibold tracking-tight text-foreground">
-          Pixecraft
-        </span>
-      </div>
-
-      {/* Main Navigation & Create CTA */}
-      <div className="flex flex-col gap-3 px-3 py-2">
-        <nav className="flex flex-col gap-1" aria-label="Main navigation">
-          {navItems.map((item) => {
-            const isActive = pathname === item.href;
-            return (
-              <Link
-                key={item.id}
-                href={item.href}
-                className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-                  isActive
-                    ? "bg-primary/10 text-primary font-semibold dark:bg-primary/20"
-                    : "text-muted-foreground hover:bg-muted/70 hover:text-foreground",
-                )}
-                aria-current={isActive ? "page" : undefined}
-              >
-                <HugeiconsIcon
-                  icon={item.icon}
-                  size={18}
-                  className={
-                    isActive ? "text-primary" : "text-muted-foreground"
-                  }
-                  aria-hidden="true"
-                />
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
-
-        {/* Create New CTA */}
+    <aside className="flex h-full w-19 shrink-0 flex-col items-center border-r border-border bg-sidebar py-4 select-none">
+      {/* Top "Create New" Button */}
+      <div className="mb-3 flex flex-col items-center">
         <Link
           href="/editor"
-          className="flex items-center justify-center gap-2 rounded-lg bg-primary px-3 py-2.5 text-sm font-medium text-white shadow-xs transition-all hover:bg-primary/90 hover:shadow-sm"
+          className="group flex flex-col items-center gap-1 focus:outline-none"
           aria-label="Create new design"
         >
-          <HugeiconsIcon icon={PlusSignIcon} size={16} aria-hidden="true" />
-          Create New
+          <div className="flex size-11 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-xs transition-transform group-hover:scale-105 active:scale-95">
+            <HugeiconsIcon icon={PlusSignIcon} size={22} strokeWidth={2.5} />
+          </div>
+          <span className="text-[11px] font-medium text-foreground">
+            Create
+          </span>
         </Link>
       </div>
 
-      {/* Settings at the bottom */}
-      <div className="mt-auto border-t border-border p-3">
+      {/* Main Navigation */}
+      <nav
+        className="flex w-full flex-col items-center gap-2 px-2"
+        aria-label="Main navigation"
+      >
+        {navItems.map((item) => {
+          const isActive = pathname === item.href;
+          return (
+            <Link
+              key={item.id}
+              href={item.href}
+              className="group relative flex w-full flex-col items-center justify-center gap-1 py-1 focus:outline-none"
+              aria-current={isActive ? "page" : undefined}
+            >
+              {/* Icon Container (Active Pill Style using your theme colors) */}
+              <div
+                className={cn(
+                  "relative flex h-9 w-12 items-center justify-center rounded-xl transition-all duration-200",
+                  isActive
+                    ? "bg-primary/10 text-primary dark:bg-primary/20"
+                    : "text-muted-foreground group-hover:bg-muted/70 group-hover:text-foreground",
+                )}
+              >
+                <HugeiconsIcon
+                  icon={item.icon}
+                  size={20}
+                  className={cn(
+                    "transition-colors",
+                    isActive
+                      ? "text-primary"
+                      : "text-muted-foreground group-hover:text-foreground",
+                  )}
+                  aria-hidden="true"
+                />
+              </div>
+
+              {/* Label */}
+              <span
+                className={cn(
+                  "max-w-full truncate px-1 text-center text-[10px] font-medium leading-tight tracking-tight",
+                  isActive
+                    ? "font-semibold text-primary"
+                    : "text-muted-foreground group-hover:text-foreground",
+                )}
+              >
+                {item.label}
+              </span>
+            </Link>
+          );
+        })}
+      </nav>
+
+      {/* Bottom Section: Settings & Profile Avatar */}
+      <div className="mt-auto flex w-full flex-col items-center gap-3 px-2 pt-4">
+        {/* Settings */}
         <Link
           href="/settings"
-          className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/70 hover:text-foreground"
+          className="group relative flex w-full flex-col items-center justify-center gap-1 py-1 focus:outline-none"
+          aria-label="Settings"
+          aria-current={pathname === "/settings" ? "page" : undefined}
         >
-          <HugeiconsIcon icon={Settings02Icon} size={18} aria-hidden="true" />
-          Settings
+          <div
+            className={cn(
+              "flex h-9 w-12 items-center justify-center rounded-xl transition-all duration-200",
+              pathname === "/settings"
+                ? "bg-primary/10 text-primary dark:bg-primary/20"
+                : "text-muted-foreground group-hover:bg-muted/70 group-hover:text-foreground",
+            )}
+          >
+            <HugeiconsIcon
+              icon={Settings02Icon}
+              size={20}
+              className={cn(
+                "transition-colors",
+                pathname === "/settings"
+                  ? "text-primary"
+                  : "text-muted-foreground group-hover:text-foreground",
+              )}
+              aria-hidden="true"
+            />
+          </div>
+          <span
+            className={cn(
+              "text-center text-[10px] font-medium leading-tight tracking-tight",
+              pathname === "/settings"
+                ? "font-semibold text-primary"
+                : "text-muted-foreground group-hover:text-foreground",
+            )}
+          >
+            Settings
+          </span>
+        </Link>
+
+        {/* Profile Avatar */}
+        <Link
+          href="/profile"
+          className="mt-1 flex size-9 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground shadow-xs transition-transform hover:scale-105 active:scale-95"
+          aria-label="User Profile"
+        >
+          RK
         </Link>
       </div>
     </aside>
