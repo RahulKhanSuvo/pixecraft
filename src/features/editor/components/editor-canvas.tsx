@@ -53,7 +53,6 @@ export function EditorCanvas({ stageRef, width, height }: EditorCanvasProps) {
       y={viewport.y}
       scaleX={viewport.scale}
       scaleY={viewport.scale}
-      draggable
       onWheel={handleWheel}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
