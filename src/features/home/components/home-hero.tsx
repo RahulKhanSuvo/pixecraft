@@ -30,7 +30,7 @@ function FormatPresetItem({ preset }: { preset: FormatPreset }) {
   return (
     <Link
       href={editorHref}
-      className="group flex min-w-[155px] flex-1 items-center gap-3 rounded-xl border border-border/80 bg-card p-3 shadow-2xs transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-xs"
+      className="group flex min-w-38.75 flex-1 items-center gap-3 rounded-xl border border-border/80 bg-card p-3 shadow-2xs transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-xs"
     >
       <div
         className={`flex size-10 shrink-0 items-center justify-center rounded-lg transition-transform group-hover:scale-105 ${preset.iconBgClass} ${preset.iconColorClass}`}
@@ -118,7 +118,7 @@ export function HomeHero() {
                 <br />
                 Share
               </span>
-              {/** biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
+              {/** biome-ignore lint/a11y/noSvgWithoutTitle: decorative hero svg */}
               <svg
                 width="28"
                 height="28"
