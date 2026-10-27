@@ -66,7 +66,7 @@ function FrequentlyUsedCard({ item }: { item: FrequentlyUsedItem }) {
   return (
     <Link
       href={editorHref}
-      className="group flex flex-1 min-w-[140px] items-center gap-2.5 rounded-xl border border-border/80 bg-card p-2.5 shadow-2xs transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-xs"
+      className="group flex flex-1 min-w-35 items-center gap-2.5 rounded-xl border border-border/80 bg-card p-2.5 shadow-2xs transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-xs"
     >
       <div
         className={`flex size-8 shrink-0 items-center justify-center rounded-lg transition-transform group-hover:scale-105 ${iconConfig.bg} ${iconConfig.color}`}
