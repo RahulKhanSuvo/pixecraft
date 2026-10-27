@@ -96,7 +96,7 @@ export function CanvasBackground({
         height={height}
         {...bgProps}
         shadowColor="rgba(0,0,0,0.25)"
-        shadowBlur={24}
+        shadowBlur={5}
         shadowOffsetY={4}
         listening={false}
       />
